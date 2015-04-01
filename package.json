@@ -1,0 +1,32 @@
+{
+  "name": "native-css",
+  "version": "1.0.0",
+  "description": "Convert pure CSS to react native style object",
+  "main": "index.js",
+  "bin": {
+    "native-css": "native-css.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raphamorim/native-css"
+  },
+  "keywords": [
+    "react",
+    "css",
+    "react",
+    "native",
+    "convert"
+  ],
+  "author": "Raphael Amorim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raphamorim/native-css/issues"
+  },
+  "homepage": "https://github.com/raphamorim/native-css"
+}
