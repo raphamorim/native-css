@@ -3,7 +3,7 @@
 > Convert pure CSS to javascript literal objects or React Style.
 
 [![NPM Version](https://img.shields.io/npm/v/express.svg?style=flat)](https://www.npmjs.org/package/native-css)
-[![Build Status](https://api.travis-ci.org/raphamorim/native-cssm.svg)](https://travis-ci.org/raphamorim/native-css)
+[![Build Status](https://travis-ci.org/raphamorim/native-css.svg)](https://travis-ci.org/raphamorim/native-css)
 
 ## Install
 
