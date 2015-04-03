@@ -1,19 +1,29 @@
 # native-css
 
-> Convert pure CSS to react native style object.
+> Convert pure CSS to javascript literal objects or React Style.
 
 [![NPM Version](https://img.shields.io/npm/v/express.svg?style=flat)](https://www.npmjs.org/package/native-css)
 [![Build Status](https://api.travis-ci.org/raphamorim/native-cssm.svg)](https://travis-ci.org/raphamorim/native-css)
 
 ## Install
 
-With [node](http://nodejs.org/) and [npm](https://www.npmjs.org/) installed, install ranza with a single command:
+**ALERT:** You can use native-css as CLI or node module
+
+Verify if you have [node](http://nodejs.org/) and [npm](https://www.npmjs.org/) installed.
+
+### As CLI 
 
 ```sh
 $ npm install -g native-css
 ```
 
-## Usage
+### As Node Module 
+
+```sh
+$ npm install native-css
+```
+
+## CLI Usage
 
 **Params:** input (required), output (optional)
 
@@ -21,9 +31,9 @@ $ npm install -g native-css
 $ native-css <input> <output>
 ```
 
-## Output Example
+### Output Example
 
-Input CSS:
+Input CSS Example:
 
 ```css
 .taxi {
@@ -36,7 +46,15 @@ Input CSS:
 }
 ```
 
-Output (JS format):
+#### React Format
+
+Using:
+
+```sh
+$ native-css <input> <output> --react
+```
+
+Generate this as output (JS format):
 
 ```javascript
 var styles = StyleSheet.create({
@@ -48,6 +66,38 @@ var styles = StyleSheet.create({
 	color: 'blue';
   }
 });
+```
+
+#### Literal JS object
+
+Using **without** react flag:
+
+```sh
+$ native-css <input> <output>
+```
+
+Generate this as output (JS format):
+
+```javascript
+var styles = { 
+  taxi: {
+    color: '#999',
+    backgroundColor: '#F8F8F8'
+  },
+  car {
+	color: 'blue';
+  }
+}
+```
+
+## Module Usage
+
+```javascript
+	var nativeCSS = require('native-css'),
+		cssFile = 'somePath/file.css';
+
+	// Generate JavaScript Object
+	var cssObject = nativeCSS.convertToReactStyle(cssFile);
 ```
 
 ## Not supported CSS features

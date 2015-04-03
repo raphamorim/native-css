@@ -1,5 +1,5 @@
 var assert = require('assert'),
-	nativeCSS = require('../lib/native-css.js');
+	nativeCSS = require('../index.js');
 
 describe('Conversion', function() {
 	context('CSS -> React Style', function() {
