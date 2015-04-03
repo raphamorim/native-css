@@ -92,10 +92,10 @@ var styles = {
 
 ```javascript
 var nativeCSS = require('native-css'),
-	cssFile = 'somePath/file.css';
+	pathToCssFile = 'somePath/file.css';
 
 // Generate JavaScript Object
-var cssObject = nativeCSS.convertToReactStyle(cssFile);
+var cssObject = nativeCSS.convert(pathToCssFile);
 ```
 
 ## Not supported CSS features
