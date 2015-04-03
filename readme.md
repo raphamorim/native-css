@@ -7,17 +7,15 @@
 
 ## Install
 
-**ALERT:** You can use native-css as CLI or node module
-
 Verify if you have [node](http://nodejs.org/) and [npm](https://www.npmjs.org/) installed.
 
-### As CLI 
+##### As CLI 
 
 ```sh
 $ npm install -g native-css
 ```
 
-### As Node Module 
+##### As Node Module 
 
 ```sh
 $ npm install native-css
@@ -31,7 +29,7 @@ $ npm install native-css
 $ native-css <input> <output>
 ```
 
-### Output Example
+### Example
 
 Input CSS Example:
 
@@ -46,7 +44,7 @@ Input CSS Example:
 }
 ```
 
-#### React Format
+#### Convert CSS to React Format
 
 Using:
 
@@ -68,9 +66,9 @@ var styles = StyleSheet.create({
 });
 ```
 
-#### Literal JS object
+#### Convert CSS to Literal JS object
 
-Using **without** react flag:
+Using, but **without** react flag:
 
 ```sh
 $ native-css <input> <output>
@@ -93,11 +91,11 @@ var styles = {
 ## Module Usage
 
 ```javascript
-	var nativeCSS = require('native-css'),
-		cssFile = 'somePath/file.css';
+var nativeCSS = require('native-css'),
+	cssFile = 'somePath/file.css';
 
-	// Generate JavaScript Object
-	var cssObject = nativeCSS.convertToReactStyle(cssFile);
+// Generate JavaScript Object
+var cssObject = nativeCSS.convertToReactStyle(cssFile);
 ```
 
 ## Not supported CSS features
