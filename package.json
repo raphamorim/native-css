@@ -10,7 +10,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/raphamorim/native-css/issues"
   },
-  "homepage": "https://github.com/raphamorim/native-css"
+  "homepage": "https://github.com/raphamorim/native-css",
+  "devDependencies": {
+    "mocha": "^2.2.1"
+  }
 }
