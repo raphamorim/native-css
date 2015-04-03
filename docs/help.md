@@ -6,7 +6,7 @@ Description: Convert pure CSS to react native style object
 More info: https://github.com/raphamorim/native-css
 
 Commands:
- native-css <pathFile>   convert CSS file to react native style
+ native-css <input> <output>   convert CSS file to react native style
 
 Options:
  -v, --version         output version number

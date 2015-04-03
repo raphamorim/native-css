@@ -1,6 +1,6 @@
 {
   "name": "native-css",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert pure CSS to javascript literal objects or React Style",
   "main": "index.js",
   "bin": {
@@ -25,6 +25,7 @@
   ],
   "author": "Raphael Amorim",
   "license": "ISC",
+  "preferGlobal": "true",
   "bugs": {
     "url": "https://github.com/raphamorim/native-css/issues"
   },
