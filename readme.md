@@ -5,6 +5,12 @@
 [![NPM Version](https://img.shields.io/npm/v/express.svg?style=flat)](https://www.npmjs.org/package/native-css)
 [![Build Status](https://travis-ci.org/raphamorim/native-css.svg)](https://travis-ci.org/raphamorim/native-css)
 
+## Before Anything!
+
+This tool believes in this semantic for CSS: [HTML semantics and front-end architecture](http://nicolasgallagher.com/about-html-semantics-front-end-architecture/)
+
+'Cause of this, all ids and inheritance relationships are converted to classes.
+
 ## Install
 
 Verify if you have [node](http://nodejs.org/) and [npm](https://www.npmjs.org/) installed.

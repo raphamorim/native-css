@@ -20,9 +20,9 @@ describe('Conversion', function() {
 						result = nativeCSS.convert(fixture);
 
 					assert.equal(typeof result, 'object');
-					assert.equal('.a' in result, true);
-					assert.equal('.b' in result, true);
-					assert.equal('.c' in result, true);
+					assert.equal('a' in result, true);
+					assert.equal('b' in result, true);
+					assert.equal('c' in result, true);
 
 					done();
 				});
@@ -33,11 +33,11 @@ describe('Conversion', function() {
 						result = nativeCSS.convert(fixture);
 
 					assert.equal(typeof result, 'object');
-					assert.equal('.a' in result, true);
-					assert.equal('.b' in result, true);
-					assert.equal('.c' in result, true);
-					assert.equal('.taxi' in result, true);
-					assert.equal('.car' in result, true);
+					assert.equal('a' in result, true);
+					assert.equal('b' in result, true);
+					assert.equal('c' in result, true);
+					assert.equal('taxi' in result, true);
+					assert.equal('car' in result, true);
 
 					done();
 				});

@@ -5,6 +5,14 @@ exports.readFile = function(path) {
 	return fs.readFileSync(path, 'utf8');
 }
 
+exports.writeFile = function(path, body) {
+    return fs.writeFileSync(path, body); 
+}
+
+exports.appendFile = function(path, body) {
+    return fs.appendFileSync(path, body); 
+}
+
 exports.verify = function(args) {
     if (typeof args === 'object') {
         if (args.indexOf(input) == -1)
