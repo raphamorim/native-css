@@ -1,12 +1,10 @@
 
-Usage: native-css <command>
+Usage: native-css <input> <output>
 
-Description: Convert pure CSS to react native style object
+Description:
+Convert pure CSS to javascript literal objects or React Style
 
 More info: https://github.com/raphamorim/native-css
-
-Commands:
- native-css <input> <output>   convert CSS file to react native style
 
 Options:
  -v, --version         output version number
