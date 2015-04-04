@@ -83,7 +83,7 @@ $ native-css <input> <output>
 Generate this as output (JS format):
 
 ```javascript
-var styles = { 
+styles: {
   taxi: {
     color: '#999',
     backgroundColor: '#F8F8F8'
