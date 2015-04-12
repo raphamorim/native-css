@@ -20,9 +20,9 @@ describe('Conversion', function() {
 						result = nativeCSS.convert(fixture);
 
 					assert.equal(typeof result, 'object');
-					assert.equal('a' in result, true);
-					assert.equal('b' in result, true);
-					assert.equal('c' in result, true);
+					assert.deepEqual(result['a'], {"background": "#111", "color": "#000"});
+					assert.deepEqual(result['b'], {"background":"#222","color":"#111"});
+					assert.deepEqual(result['c'], {"color":"#000"});
 
 					done();
 				});
@@ -33,11 +33,11 @@ describe('Conversion', function() {
 						result = nativeCSS.convert(fixture);
 
 					assert.equal(typeof result, 'object');
-					assert.equal('a' in result, true);
-					assert.equal('b' in result, true);
-					assert.equal('c' in result, true);
-					assert.equal('taxi' in result, true);
-					assert.equal('car' in result, true);
+					assert.deepEqual(result['a'], {"background": "#111", "color": "#000"});
+					assert.deepEqual(result['b'], {"background":"#222","color":"#111"});
+					assert.deepEqual(result['c'], {"color":"#000"});
+					assert.deepEqual(result['taxi'], {"color":"#000"});
+					assert.deepEqual(result['car'], {"color":"blue"});
 
 					done();
 				});

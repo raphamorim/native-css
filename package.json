@@ -30,5 +30,8 @@
   "homepage": "https://github.com/raphamorim/native-css",
   "devDependencies": {
     "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "css": "^2.2.0"
   }
 }
