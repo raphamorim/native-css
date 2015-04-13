@@ -94,6 +94,77 @@ styles: {
 }
 ```
 
+#### Inherent and Parents
+
+As stated, this tool believes and follows a specific semantic for CSS. Therefore in these cases, exists a change in nomenclature. Example:
+
+Input File (style.css)
+
+```css
+.any.element {
+  color: red;
+}
+
+.parent .child {
+  color: orange;
+}
+
+.parent  .child2 {
+  color: blue;
+}
+```
+
+Output File (style.js)
+
+```javascript
+any_element: { 
+  color: 'red' 
+},
+parent__child: { 
+  color: 'orange' 
+},
+parent__child2: { 
+  color: 'blue' 
+}
+```
+
+#### Media Queries
+
+Input File (style.css): 
+
+```css
+@media screen and (min-width: 1020px){
+  body .container { 
+    width: 1020px !important
+  }
+}
+
+@media (min-width: 768px){
+  body .container {
+    width: 748px !important
+  }
+}
+```
+
+Output File (style.js):
+
+```javascript
+'@media screen and (min-width: 1020px)': { 
+  __expression__: 'screen and (min-width: 1020px)',
+  body__container: { 
+    width: '1020px !important' 
+  } 
+},
+'@media (min-width: 768px)': { 
+  __expression__: '(min-width: 768px)',
+  body__container: { 
+    width: '748px !important' 
+  } 
+}
+```
+
+
+
 ## Module Usage
 
 ```javascript

@@ -1,0 +1,27 @@
+.a {
+	background: #111;
+	color: #000;
+}
+
+.b {
+	background: #222;
+	color: #111;
+}
+
+@media screen and (min-width: 1020px){
+	body .container { 
+		width: 1020px !important
+	}
+}
+
+@media (min-width: 768px){
+	body .container {
+		width: 748px !important
+	}
+}
+
+@media print{
+	body .container {
+		width: 748px !important
+	}
+}
