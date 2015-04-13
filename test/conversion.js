@@ -99,7 +99,6 @@ describe('Conversion', function() {
 					assert.deepEqual(result['a'], {"background": "#111", "color": "#000"});
 					assert.deepEqual(result['b'], {"background":"#222","color":"#111"});
 
-					// Media 1020
 					assert.deepEqual(typeof mediaQuery, 'object');
 					assert.deepEqual(mediaQuery['__expression__'], '(min-width: 768px)');
 					assert.deepEqual(mediaQuery['nav'], { width: '200px !important' });
