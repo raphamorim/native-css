@@ -8,6 +8,26 @@
 	color: #111;
 }
 
-.c {
+.c, .d {
 	color: #000;
+}
+
+.parent .child {
+	color: blue;
+}
+
+.parent  .child2 {
+	color: blue;
+}
+
+.cat.blue {
+	color: blue;
+}
+
+@media (min-width: 768px){
+	body .container{width:748px !important}
+}
+
+@media (min-width: 768px){
+	.bx { color: blue;}
 }
