@@ -1,0 +1,27 @@
+.a {
+	background: #111;
+	color: #000;
+}
+
+.b {
+	background: #222;
+	color: #111;
+}
+
+@media (min-width: 768px){
+	nav { 
+		width: 200px !important
+	}
+}
+
+@media (min-width: 768px){
+	section {
+		width: 768px !important
+	}
+}
+
+@media (min-width: 768px){
+	footer {
+		width: 768px !important
+	}
+}

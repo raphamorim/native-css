@@ -1,0 +1,29 @@
+.a {
+	background: #111;
+	color: #000;
+}
+
+.b {
+	background: #222;
+	color: #111;
+}
+
+.c, .d {
+	color: #000;
+}
+
+.any.element {
+	color: red;
+}
+
+.parent .child {
+	color: blue;
+}
+
+.parent  .child2 {
+	color: blue;
+}
+
+.cat.blue {
+	color: blue;
+}
