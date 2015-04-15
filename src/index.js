@@ -1,28 +1,20 @@
-var fs = require('fs'),
-	input = process.argv[2];
+'use strict';
 
-exports.readFile = function(path) {
-	return fs.readFileSync(path, 'utf8');
+var nativeCSS = require('./native-css'),
+    verify = require('../lib').verify,
+    commands = process.argv;
+
+if (verify(['-v', '--version']))
+    console.log(nativeCSS.version());
+
+else if (verify(['-h', '--help']))
+    console.log(nativeCSS.help());
+
+else {
+    var react = (commands.indexOf('--react') > -1),
+        outputPath = commands[3] || false;
+
+    var css = nativeCSS.convert(commands[2]);
+
+    nativeCSS.generateFile(css, outputPath, react);
 }
-
-exports.writeFile = function(path, body) {
-    return fs.writeFileSync(path, body); 
-}
-
-exports.appendFile = function(path, body) {
-    return fs.appendFileSync(path, body); 
-}
-
-exports.verify = function(args) {
-    if (typeof args === 'object') {
-        if (args.indexOf(input) == -1)
-            return false;
-
-        return true;
-    } else {
-        if (args != input)
-            return false;
-            
-        return true;
-    }
-};

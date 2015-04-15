@@ -1,1 +1,1 @@
-module.exports = require('./lib/native-css.js');
+module.exports = require('./src/native-css.js');
