@@ -41,7 +41,7 @@ Input CSS Example:
 
 ```css
 .taxi {
-	backgroundColor: #F8F8F8;
+	background-color: #F8F8F8;
 	color: #999;
 }
 
