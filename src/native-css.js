@@ -33,6 +33,7 @@ var nativeCSS = function() {
 	}
 
 	this.transformRules = function(self, rules, result) {
+	    var that = this;
 	    rules.forEach(function(rule) {
 	        var obj = {};
 	        if (rule.type === 'media') {
@@ -40,7 +41,7 @@ var nativeCSS = function() {
 	            var media = result[name] = result[name] || {
 	                "__expression__": rule.media
 	            };
-	            this.transformRules(self, rule.rules, media)
+	            that.transformRules(self, rule.rules, media)
 	        } else if (rule.type === 'rule') {
 	            rule.declarations.forEach(function (declaration) {
 	                if (declaration.type === 'declaration') {
