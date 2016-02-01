@@ -1,20 +1,38 @@
 'use strict';
 
 var nativeCSS = require('./native-css'),
-    verify = require('../lib').verify,
-    commands = process.argv;
+	verify = require('../lib').verify,
+	commands = process.argv,
+	async = false;
 
 if (verify(['-v', '--version']))
-    console.log(nativeCSS.version());
+	console.log(nativeCSS.version());
 
 else if (verify(['-h', '--help']))
-    console.log(nativeCSS.help());
+	console.log(nativeCSS.help());
+else if (verify(['-p','--async']))
+	async = true;
 
 else {
-    var react = (commands.indexOf('--react') > -1),
-        outputPath = commands[3] || false;
+	var react = (commands.indexOf('--react') > -1),
+		outputPath = commands[3] || false;
 
-    var css = nativeCSS.convert(commands[2]);
+	if (!async) {
+		var css = nativeCSS.convert(commands[2]);
+		if (outputPath)
+			nativeCSS.generateFile(css, outputPath, react);
+		else
+			console.log(css);
 
-    nativeCSS.generateFile(css, outputPath, react);
+	}
+	else {
+		nativeCSS.convertAsync(commands[2])
+			.then(function(css) {
+				if (outputPath)
+					nativeCSS.generateFile(css, outputPath, react);
+				else
+					console.log(css);
+			});
+	}
+
 }
