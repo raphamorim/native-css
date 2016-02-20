@@ -110,4 +110,24 @@ describe('Conversion', function() {
 			});
 		});
 	});
+	context('Async', function() {
+		context('Read URL ... and convert', function() {
+			it('should get a object without any error', function(done, error) {
+				nativeCSS.convertAsync('http://raw.githubusercontent.com/raphamorim/native-css/master/test/fixtures/sample.css')
+					.then(function(result) {
+						assert.equal(typeof result, 'object');
+
+						assert.deepEqual(result['a'], {"background": "#111", "color": "#000"});
+						assert.deepEqual(result['b'], {"background":"#222","color":"#111"});
+						assert.deepEqual(result['c'], {"color":"#000"});
+					})
+					.catch(function(err){
+						error(err);
+					})
+					.finally(function() {
+						done();
+					});
+			});
+		});
+	});
 });

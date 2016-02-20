@@ -175,6 +175,25 @@ var nativeCSS = require('native-css'),
 var cssObject = nativeCSS.convert(pathToCssFile);
 ```
 
+__url support with async version:__
+```javascript
+var nativeCSS = require('native-css'),
+  URL = 'http://raw.githubusercontent.com/raphamorim/native-css/master/test/fixtures/sample.css';
+
+// Generate JavaScript Object
+nativeCSS.convertAsync(URL) // returns bluebird Promise
+  .then(function(result) {
+    // convert/validate data
+    // return or throw
+  })
+  .catch(function(err){
+    handleError(err);
+  })
+  .finally(function(cssObject) {
+    handleValue(cssObject);
+  });
+```
+
 ## Not supported CSS features
 
 React Style does not support CSS selectors, pseudo-classes and CSS animation. Mostly because we try to avoid implicit behaviour and want the user to make layout decisions inside the render() function.
