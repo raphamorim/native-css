@@ -1,6 +1,6 @@
 {
   "name": "native-css",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "Convert pure CSS to javascript literal objects or React Style",
   "main": "index.js",
   "bin": "./bin/native-css.js",
