@@ -166,7 +166,7 @@ Output File (style.js):
 
 
 ## Module Usage
-
+__supported input types:__ Path, Url, String, Buffer
 ```javascript
 var nativeCSS = require('native-css'),
 	pathToCssFile = 'somePath/file.css';
@@ -193,6 +193,8 @@ nativeCSS.convertAsync(URL) // returns bluebird Promise
     handleValue(cssObject);
   });
 ```
+__webpack support:__
+[cssobjects-loader](https://www.npmjs.com/package/cssobjects-loader)
 
 ## Not supported CSS features
 
