@@ -6,17 +6,17 @@ var packageJson = require('../package.json'),
     fetchUrl = require('fetch').fetchUrl,
     Promise = require('bluebird');
 
-var nativeCSS = function() {};
+var nativeCSS = function () {};
 
-nativeCSS.prototype.version = function() {
+nativeCSS.prototype.version = function () {
     return ('native-css version: ' + packageJson.version)
 }
 
-nativeCSS.prototype.help = function() {
+nativeCSS.prototype.help = function () {
     return lib.readFile(__dirname + '/../docs/help.md')
 }
 
-nativeCSS.prototype.indentObject = function(obj, indent) {
+nativeCSS.prototype.indentObject = function (obj, indent) {
     var self = this,
         result = '';
     return JSON.stringify(obj, null, indent || 0);
@@ -30,12 +30,12 @@ nativeCSS.prototype.nameGenerator = function (name) {
     return name;
 }
 
-nativeCSS.prototype.mediaNameGenerator = function(name) {
+nativeCSS.prototype.mediaNameGenerator = function (name) {
     return '@media ' + name;
 }
 
 function transformRules(self, rules, result) {
-    rules.forEach(function(rule) {
+    rules.forEach(function (rule) {
         var obj = {};
         if (rule.type === 'media') {
             var name = self.mediaNameGenerator(rule.media);
@@ -49,7 +49,7 @@ function transformRules(self, rules, result) {
                     obj[declaration.property] = declaration.value;
                 }
             });
-            rule.selectors.forEach(function(selector) {
+            rule.selectors.forEach(function (selector) {
                 var name = self.nameGenerator(selector.trim());
                 result[name] = obj;
             });
@@ -57,7 +57,7 @@ function transformRules(self, rules, result) {
     });
 }
 
-nativeCSS.prototype.transform = function(css) {
+nativeCSS.prototype.transform = function (css) {
     var result = {};
     transformRules(this, css.stylesheet.rules, result);
     return result;
@@ -85,12 +85,12 @@ nativeCSS.prototype.fetchUrlAsync = function (cssFile) {
     });
 }
 
-nativeCSS.prototype.convertAsync = function(cssFile) {
-     var self = this,
-          path = process.cwd() + '/' + cssFile,
-          error;
+nativeCSS.prototype.convertAsync = function (cssFile) {
+    var self = this,
+        path = process.cwd() + '/' + cssFile,
+        error;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         if (!self.isUrl(cssFile)) {
             if ((require('fs').existsSync(path))) {
                 var css = lib.readFile(path);
@@ -102,10 +102,9 @@ nativeCSS.prototype.convertAsync = function(cssFile) {
             } else {
                 reject(new Error('Ooops!\nError: CSS file not found!'));
             }
-        }
-        else {
+        } else {
             return self.fetchUrlAsync(cssFile)
-                .catch(function(err) {
+                .catch(function (err) {
                     reject(err);
                 })
                 .then(function (css) {
@@ -120,18 +119,34 @@ nativeCSS.prototype.convertAsync = function(cssFile) {
 };
 
 nativeCSS.prototype.convert = function(cssFile) {
-    var path = process.cwd() + '/' + cssFile;
-    if (!(require('fs').existsSync(path))) return 'Ooops!\nError: CSS file not found!';
     var self = this,
+        path = process.cwd() + '/' + cssFile,
+        css;
+    // PATH given
+    if ((require('fs').existsSync(path))) {
         css = lib.readFile(path);
-    css = cssParser.parse(css, {
-        silent: false,
-        source: path
-    });
+    }
+    // STRING given
+    else if (typeof cssFile === 'string') {
+        css = cssFile;
+    }
+    // Buffer given
+    else if(cssFile instanceof Buffer) {
+        css = cssFile.toString();
+    }
+    // URL given
+    else if (this.isUrl(cssFile)) {
+        return this.convertAsync(cssFile);
+    }
+    // unknown format
+    else {
+        return 'Ooops!\nError: CSS file not found!';
+    }
+    css = cssParser.parse(css, {silent: false, source: path});
     return self.transform(css);
 }
 
-nativeCSS.prototype.generateFile = function(obj, where, react) {
+nativeCSS.prototype.generateFile = function (obj, where, react) {
     if (!where || where.indexOf('--') > -1)
         return console.log('Please, set a output path!');
 
