@@ -66,7 +66,7 @@ var styles = StyleSheet.create({
     color: '#999',
     backgroundColor: '#F8F8F8'
   },
-  car {
+  car: {
 	color: 'blue';
   }
 });
@@ -88,7 +88,7 @@ styles: {
     color: '#999',
     backgroundColor: '#F8F8F8'
   },
-  car {
+  car: {
 	color: 'blue';
   }
 }
