@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/raphamorim/native-css",
   "devDependencies": {
-    "mocha": "^2.2.1"
+    "mocha": "^3.3.0"
   },
   "dependencies": {
     "bluebird": "^3.3.1",
