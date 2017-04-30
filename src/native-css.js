@@ -9,18 +9,18 @@ var packageJson = require('../package.json'),
 var nativeCSS = function () {};
 
 nativeCSS.prototype.version = function () {
-    return ('native-css version: ' + packageJson.version)
-}
+    return ('native-css version: ' + packageJson.version);
+};
 
 nativeCSS.prototype.help = function () {
-    return lib.readFile(__dirname + '/../docs/help.md')
-}
+    return lib.readFile(__dirname + '/../docs/help.md');
+};
 
 nativeCSS.prototype.indentObject = function (obj, indent) {
     var self = this,
         result = '';
     return JSON.stringify(obj, null, indent || 0);
-}
+};
 
 nativeCSS.prototype.nameGenerator = function (name) {
     name = name.replace(/\s\s+/g, ' ');
@@ -28,11 +28,11 @@ nativeCSS.prototype.nameGenerator = function (name) {
     name = name.replace(/^_+/g, '');
     name = name.replace(/_+$/g, '');
     return name;
-}
+};
 
 nativeCSS.prototype.mediaNameGenerator = function (name) {
     return '@media ' + name;
-}
+};
 
 function transformRules(self, rules, result) {
     rules.forEach(function (rule) {
@@ -42,7 +42,7 @@ function transformRules(self, rules, result) {
             var media = result[name] = result[name] || {
                 "__expression__": rule.media
             };
-            transformRules(self, rule.rules, media)
+            transformRules(self, rule.rules, media);
         } else if (rule.type === 'rule') {
             rule.declarations.forEach(function (declaration) {
                 if (declaration.type === 'declaration') {
@@ -61,7 +61,7 @@ nativeCSS.prototype.transform = function (css) {
     var result = {};
     transformRules(this, css.stylesheet.rules, result);
     return result;
-}
+};
 
 nativeCSS.prototype.isUrl = function (str) {
     // feel free to use a better pattern
@@ -70,7 +70,7 @@ nativeCSS.prototype.isUrl = function (str) {
         return false;
     }
     return true;
-}
+};
 
 nativeCSS.prototype.fetchUrlAsync = function (cssFile) {
     return new Promise(function (resolve, reject) {
@@ -83,7 +83,7 @@ nativeCSS.prototype.fetchUrlAsync = function (cssFile) {
             }
         });
     });
-}
+};
 
 nativeCSS.prototype.convertAsync = function (cssFile) {
     var self = this,
@@ -144,7 +144,7 @@ nativeCSS.prototype.convert = function(cssFile) {
     }
     css = cssParser.parse(css, {silent: false, source: path});
     return self.transform(css);
-}
+};
 
 nativeCSS.prototype.generateFile = function (obj, where, react) {
     if (!where || where.indexOf('--') > -1)
@@ -166,6 +166,6 @@ nativeCSS.prototype.generateFile = function (obj, where, react) {
         'styles': obj
     }, 2);
     lib.writeFile(where, body);
-}
+};
 
 module.exports = new nativeCSS();
