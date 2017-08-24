@@ -1,171 +1,164 @@
-'use strict';
+const packageJson = require('../package.json');
+const lib = require('../lib');
+const cssParser = require('css');
+const fetchUrl = require('fetch').fetchUrl;
+const Promise = require('bluebird');
 
-var packageJson = require('../package.json'),
-    lib = require('../lib'),
-    cssParser = require('css'),
-    fetchUrl = require('fetch').fetchUrl,
-    Promise = require('bluebird');
+class NativeCSS {
+  version() {
+    return `native-css version: ${packageJson.version}`;
+  }
 
-var nativeCSS = function () {};
+  help() {
+    return lib.readFile(__dirname + '/../docs/help.md');
+  }
 
-nativeCSS.prototype.version = function () {
-    return ('native-css version: ' + packageJson.version)
-}
-
-nativeCSS.prototype.help = function () {
-    return lib.readFile(__dirname + '/../docs/help.md')
-}
-
-nativeCSS.prototype.indentObject = function (obj, indent) {
-    var self = this,
-        result = '';
+  indentObject(obj, indent) {
     return JSON.stringify(obj, null, indent || 0);
-}
+  }
 
-nativeCSS.prototype.nameGenerator = function (name) {
+  nameGenerator(name) {
     name = name.replace(/\s\s+/g, ' ');
     name = name.replace(/[^a-zA-Z0-9]/g, '_');
     name = name.replace(/^_+/g, '');
     name = name.replace(/_+$/g, '');
     return name;
-}
+  }
 
-nativeCSS.prototype.mediaNameGenerator = function (name) {
-    return '@media ' + name;
-}
+  mediaNameGenerator(name) {
+    return `@media ${name}`;
+  }
 
-function transformRules(self, rules, result) {
-    rules.forEach(function (rule) {
-        var obj = {};
-        if (rule.type === 'media') {
-            var name = self.mediaNameGenerator(rule.media);
-            var media = result[name] = result[name] || {
-                "__expression__": rule.media
-            };
-            transformRules(self, rule.rules, media)
-        } else if (rule.type === 'rule') {
-            rule.declarations.forEach(function (declaration) {
-                if (declaration.type === 'declaration') {
-                    obj[declaration.property] = declaration.value;
-                }
-            });
-            rule.selectors.forEach(function (selector) {
-                var name = self.nameGenerator(selector.trim());
-                result[name] = obj;
-            });
-        }
-    });
-}
+  transform(css) {
+    const result = {};
 
-nativeCSS.prototype.transform = function (css) {
-    var result = {};
-    transformRules(this, css.stylesheet.rules, result);
+    this.transformRules(css.stylesheet.rules, result);
+
     return result;
-}
+  }
 
-nativeCSS.prototype.isUrl = function (str) {
+  transformRules(rules, result) {
+    rules.forEach(rule => {
+      const obj = {};
+
+      if (rule.type === 'media') {
+        const name = this.mediaNameGenerator(rule.media);
+        const media = result[name] = result[name] || {
+          '__expression__': rule.media
+        };
+
+        this.transformRules(rule.rules, media);
+      } else if (rule.type === 'rule') {
+        rule.declarations.forEach(declaration => {
+          if (declaration.type === 'declaration') {
+            obj[declaration.property] = declaration.value;
+          }
+        });
+        rule.selectors.forEach(selector => {
+          const name = this.nameGenerator(selector.trim());
+
+          result[name] = obj;
+        });
+      }
+    });
+  }
+
+  isUrl(str) {
     // feel free to use a better pattern
-    var pattern = new RegExp('^(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
+    const pattern = new RegExp('^(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i'); //eslint-disable-line
+
     if (!pattern.test(str)) {
-        return false;
+      return false;
     }
     return true;
-}
+  }
 
-nativeCSS.prototype.fetchUrlAsync = function (cssFile) {
-    return new Promise(function (resolve, reject) {
-        fetchUrl(cssFile, function (err, meta, body) {
-            if (err) throw err;
-            try {
-                resolve(body.toString());
-            } catch (err) {
-                reject(err);
-            }
-        });
-    });
-}
-
-nativeCSS.prototype.convertAsync = function (cssFile) {
-    var self = this,
-        path = process.cwd() + '/' + cssFile,
-        error;
-
-    return new Promise(function (resolve, reject) {
-        if (!self.isUrl(cssFile)) {
-            if ((require('fs').existsSync(path))) {
-                var css = lib.readFile(path);
-                css = cssParser.parse(css, {
-                    silent: false,
-                    source: path
-                });
-                return resolve(self.transform.apply(self, css));
-            } else {
-                reject(new Error('Ooops!\nError: CSS file not found!'));
-            }
-        } else {
-            return self.fetchUrlAsync(cssFile)
-                .catch(function (err) {
-                    reject(err);
-                })
-                .then(function (css) {
-                    var css = cssParser.parse(css, {
-                        silent: false,
-                        source: path
-                    });
-                    resolve(self.transform(css));
-                });
+  fetchUrlAsync(cssFile) {
+    return new Promise((resolve, reject) => {
+      fetchUrl(cssFile, (err, meta, body) => {
+        if (err) throw err;
+        try {
+          resolve(body.toString());
+        } catch (error) {
+          reject(error);
         }
+      });
     });
-};
+  }
 
-nativeCSS.prototype.convert = function(cssFile) {
-    var self = this,
-        path = process.cwd() + '/' + cssFile,
-        css;
+  convertAsync(cssFile) {
+    const path = `${process.cwd()}/${cssFile}`;
+
+    return new Promise((resolve, reject) => {
+      if (!this.isUrl(cssFile)) {
+        if ((require('fs').existsSync(path))) {
+          let css = lib.readFile(path);
+
+          css = cssParser.parse(css, {
+            silent: false,
+            source: path
+          });
+          return resolve(this.transform.apply(css));
+        }
+        reject(new Error('Ooops!\nError: CSS file not found!'));
+      } else {
+        return this.fetchUrlAsync(cssFile)
+          .catch((err) => {
+            reject(err);
+          })
+          .then((css) => {
+            css = cssParser.parse(css, {
+              silent: false,
+              source: path
+            });
+
+            resolve(this.transform(css));
+          });
+      }
+    });
+  }
+
+  convert(cssFile) {
+    const path = `${process.cwd()}/${cssFile}`;
+    let css;
+
     // PATH given
     if ((require('fs').existsSync(path))) {
-        css = lib.readFile(path);
+      css = lib.readFile(path);
+    } else if (typeof cssFile === 'string') { // STRING given
+      css = cssFile;
+    } else if (cssFile instanceof Buffer) { // Buffer given
+      css = cssFile.toString();
+    } else if (this.isUrl(cssFile)) { // URL given
+      return this.convertAsync(cssFile);
+    } else { // unknown format
+      return 'Ooops!\nError: CSS file not found!';
     }
-    // STRING given
-    else if (typeof cssFile === 'string') {
-        css = cssFile;
-    }
-    // Buffer given
-    else if(cssFile instanceof Buffer) {
-        css = cssFile.toString();
-    }
-    // URL given
-    else if (this.isUrl(cssFile)) {
-        return this.convertAsync(cssFile);
-    }
-    // unknown format
-    else {
-        return 'Ooops!\nError: CSS file not found!';
-    }
-    css = cssParser.parse(css, {silent: false, source: path});
-    return self.transform(css);
-}
+    css = cssParser.parse(css, { silent: false, source: path });
+    return this.transform(css);
+  }
 
-nativeCSS.prototype.generateFile = function (obj, where, react) {
-    if (!where || where.indexOf('--') > -1)
-        return console.log('Please, set a output path!');
+  generateFile(obj, where, react) {
+    if (!where || where.indexOf('--') > -1) {
+      return console.log('Please, set a output path!');
+    }
 
-    var self = this,
-        body;
+    let body;
 
-    where = process.cwd() + '/' + where;
+    where = `${process.cwd()}/${where}`;
 
     if (react) {
-        lib.writeFile(where, 'var styles = StyleSheet.create({\n');
-        body = self.indentObject(obj, 2);
-        lib.appendFile(where, body + '\n});');
-        return;
+      lib.writeFile(where, 'var styles = StyleSheet.create({\n');
+      body = this.indentObject(obj, 2);
+      lib.appendFile(where, `${body}\n});`);
+      return;
     }
 
-    body = self.indentObject({
-        'styles': obj
+    body = this.indentObject({
+      styles: obj
     }, 2);
     lib.writeFile(where, body);
+  }
 }
 
-module.exports = new nativeCSS();
+module.exports = new NativeCSS();
