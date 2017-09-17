@@ -41,12 +41,12 @@ Input CSS Example:
 
 ```css
 .taxi {
-	background-color: #F8F8F8;
-	color: #999;
+  background-color: #F8F8F8;
+  color: #999;
 }
 
 #car {
-	color: blue;
+  color: blue;
 }
 ```
 
