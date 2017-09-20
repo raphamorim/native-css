@@ -1,6 +1,6 @@
 'use strict';
 
-var nativeCSS = require('./native-css'),
+const nativeCSS = require('./native-css'),
     verify = require('../lib').verify,
     commands = process.argv;
 

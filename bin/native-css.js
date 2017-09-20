@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 (function() {
-    var nativeCSS = require('../src/index.js');
+    const nativeCSS = require('../src/index.js');
 })();
