@@ -1,12 +1,10 @@
-'use strict';
+const packageJson = require('../package.json');
+const lib = require('../lib');
+const cssParser = require('css');
+const fetchUrl = require('fetch').fetchUrl;
+const Promise = require('bluebird');
 
-var packageJson = require('../package.json'),
-    lib = require('../lib'),
-    cssParser = require('css'),
-    fetchUrl = require('fetch').fetchUrl,
-    Promise = require('bluebird');
-
-var nativeCSS = function () {};
+const nativeCSS = function () {};
 
 nativeCSS.prototype.version = function () {
     return ('native-css version: ' + packageJson.version)
@@ -17,7 +15,7 @@ nativeCSS.prototype.help = function () {
 }
 
 nativeCSS.prototype.indentObject = function (obj, indent) {
-    var self = this,
+    const self = this,
         result = '';
     return JSON.stringify(obj, null, indent || 0);
 }
@@ -36,10 +34,10 @@ nativeCSS.prototype.mediaNameGenerator = function (name) {
 
 function transformRules(self, rules, result) {
     rules.forEach(function (rule) {
-        var obj = {};
+        const obj = {};
         if (rule.type === 'media') {
-            var name = self.mediaNameGenerator(rule.media);
-            var media = result[name] = result[name] || {
+            const name = self.mediaNameGenerator(rule.media);
+            const media = result[name] = result[name] || {
                 "__expression__": rule.media
             };
             transformRules(self, rule.rules, media)
@@ -50,7 +48,7 @@ function transformRules(self, rules, result) {
                 }
             });
             rule.selectors.forEach(function (selector) {
-                var name = self.nameGenerator(selector.trim());
+                const name = self.nameGenerator(selector.trim());
                 result[name] = obj;
             });
         }
@@ -58,14 +56,14 @@ function transformRules(self, rules, result) {
 }
 
 nativeCSS.prototype.transform = function (css) {
-    var result = {};
+    const result = {};
     transformRules(this, css.stylesheet.rules, result);
     return result;
 }
 
 nativeCSS.prototype.isUrl = function (str) {
     // feel free to use a better pattern
-    var pattern = new RegExp('^(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
+    const pattern = new RegExp('^(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
     if (!pattern.test(str)) {
         return false;
     }
@@ -86,14 +84,14 @@ nativeCSS.prototype.fetchUrlAsync = function (cssFile) {
 }
 
 nativeCSS.prototype.convertAsync = function (cssFile) {
-    var self = this,
+    const self = this,
         path = process.cwd() + '/' + cssFile,
         error;
 
     return new Promise(function (resolve, reject) {
         if (!self.isUrl(cssFile)) {
             if ((require('fs').existsSync(path))) {
-                var css = lib.readFile(path);
+                const css = lib.readFile(path);
                 css = cssParser.parse(css, {
                     silent: false,
                     source: path
@@ -108,7 +106,7 @@ nativeCSS.prototype.convertAsync = function (cssFile) {
                     reject(err);
                 })
                 .then(function (css) {
-                    var css = cssParser.parse(css, {
+                    const css = cssParser.parse(css, {
                         silent: false,
                         source: path
                     });
@@ -119,7 +117,7 @@ nativeCSS.prototype.convertAsync = function (cssFile) {
 };
 
 nativeCSS.prototype.convert = function(cssFile) {
-    var self = this,
+    const self = this,
         path = process.cwd() + '/' + cssFile,
         css;
     // PATH given
@@ -150,7 +148,7 @@ nativeCSS.prototype.generateFile = function (obj, where, react) {
     if (!where || where.indexOf('--') > -1)
         return console.log('Please, set a output path!');
 
-    var self = this,
+    const self = this,
         body;
 
     where = process.cwd() + '/' + where;
