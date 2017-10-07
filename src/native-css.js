@@ -154,9 +154,9 @@ nativeCSS.prototype.generateFile = function(obj, where, react) {
     where = process.cwd() + '/' + where;
 
     if (react) {
-        lib.writeFile(where, 'var styles = StyleSheet.create({\n');
+        lib.writeFile(where, 'var styles = StyleSheet.create(');
         body = self.indentObject(obj, 2);
-        lib.appendFile(where, body + '\n});');
+        lib.appendFile(where, body + '\n);');
         return;
     }
 
