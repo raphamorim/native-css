@@ -1,13 +1,14 @@
 .a {
-	background: #111;
-	color: #000;
+  background-color: #111;
+  color: #000;
 }
 
 .b {
-	background: #222;
-	color: #111;
+  background: #222;
+  color: #111;
+  font-size: 15px;
 }
 
 .c {
-	color: #000;
+  color: #000;
 }
