@@ -188,12 +188,6 @@ nativeCSS.convertAsync(URL || Path) // returns Promise
     // convert/validate data
     // return or throw
   })
-  .catch(function(err){
-    handleError(err);
-  })
-  .finally(function(cssObject) {
-    handleValue(cssObject);
-  });
 ```
 ### webpack usage:  
 [cssobjects-loader](https://www.npmjs.com/package/cssobjects-loader)
