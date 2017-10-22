@@ -141,7 +141,8 @@ Input File (style.css):
 
 @media (min-width: 768px){
   body .container {
-    width: 748px !important
+    width: 748px !important;
+    box-sizing: 'all'
   }
 }
 ```
@@ -149,16 +150,17 @@ Input File (style.css):
 Output File (style.js):
 
 ```javascript
-'@media screen and (min-width: 1020px)': { 
-  __expression__: 'screen and (min-width: 1020px)',
+'@media screen and (min-width:1020px)': { 
+  __expression__: 'screen and (min-width:1020px)',
   body__container: { 
     width: '1020px !important' 
   } 
 },
-'@media (min-width: 768px)': { 
-  __expression__: '(min-width: 768px)',
+'@media (min-width:768px)': { 
+  __expression__: '(min-width:768px)',
   body__container: { 
-    width: '748px !important' 
+    width: '748px !important',
+    boxSizing: 'all'
   } 
 }
 ```
@@ -181,7 +183,7 @@ var nativeCSS = require('native-css'),
   URL = 'http://raw.githubusercontent.com/raphamorim/native-css/master/test/fixtures/sample.css';
 
 // Generate JavaScript Object
-nativeCSS.convertAsync(URL || Path) // returns bluebird Promise
+nativeCSS.convertAsync(URL || Path) // returns Promise
   .then(function(result) {
     // convert/validate data
     // return or throw

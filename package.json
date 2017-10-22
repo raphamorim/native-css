@@ -1,6 +1,6 @@
 {
   "name": "native-css",
-  "version": "1.2.5",
+  "version": "2.0.0",
   "description": "Convert pure CSS to javascript literal objects or React Style",
   "main": "index.js",
   "bin": "./bin/native-css.js",
@@ -22,18 +22,20 @@
     "convert"
   ],
   "author": "Raphael Amorim",
-  "license": "ISC",
+  "license": "MIT",
   "preferGlobal": "true",
   "bugs": {
     "url": "https://github.com/raphamorim/native-css/issues"
+  },
+  "engines": {
+    "node": ">=0.12"
   },
   "homepage": "https://github.com/raphamorim/native-css",
   "devDependencies": {
     "mocha": "^2.2.1"
   },
   "dependencies": {
-    "bluebird": "^3.3.1",
-    "css": "^2.2.0",
+    "css": "2.2.1",
     "fetch": "^1.0.1"
   }
 }
